@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//import java.util.Optional;
+import java.util.Optional;
 
 public class Student extends Person {
     
@@ -31,6 +31,14 @@ public class Student extends Person {
 
     public void setGrade(String courseName, double grade) {
         this.grades.put(courseName, grade);
+    }
+
+    public Optional<Double> getGrade(String courseName) {
+        return Optional.ofNullable(this.grades.get(courseName));
+    }
+
+    public List<Course> getCourses() {
+        return courses;
     }
 
     public Map<String, Double> getGrades() {

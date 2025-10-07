@@ -3,6 +3,7 @@ package com.smis.cli_smis.services;
 import com.smis.cli_smis.entities.Student;
 import com.smis.cli_smis.utils.FileUtil;
 import org.springframework.stereotype.Repository;
+import jakarta.annotation.PostConstruct;
 
 import java.util.List;
 import java.util.HashMap;
@@ -19,7 +20,25 @@ public class FileRepository implements DataRepository {
 
     public FileRepository(FileUtil fileUtil) {
         this.fileUtil = fileUtil;
-        this.load();
+        //this.load();
+    }
+
+    @PostConstruct
+    private void init() {
+        this.loadInitialData();
+    }
+
+    private void loadInitialData() {
+        List<Student> students = fileUtil.readFromFile(filePath);
+        studentMap.clear();
+        for (Student student : students) {
+            studentMap.put(student.getStudentId(), student);
+        }
+    }
+
+    @Override
+    public List<Student> load() {
+        return new java.util.ArrayList<>(studentMap.values());
     }
 
     @Override
@@ -31,17 +50,17 @@ public class FileRepository implements DataRepository {
         fileUtil.writeToFile(students, filePath);
     }
 
-    @Override
-    public List<Student> load() {
-        List<Student> students = fileUtil.readFromFile(filePath);
+    // @Override
+    // public List<Student> load() {
+    //     List<Student> students = fileUtil.readFromFile(filePath);
 
-        studentMap.clear();
-        for (Student student : students) {
-            studentMap.put(student.getStudentId(), student);
-        }
+    //     studentMap.clear();
+    //     for (Student student : students) {
+    //         studentMap.put(student.getStudentId(), student);
+    //     }
 
-        return students;
-    }
+    //     return students;
+    // }
 
     @Override
     public Optional<Student> findById(String id) {
