@@ -5,6 +5,8 @@ import java.util.List;
 //import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,10 @@ public class StudentService {
     }
 
     public void addStudent(Student student) throws DuplicateStudentException {
+
+        if (repository.findById(student.getStudentId()).isPresent()) {
+            throw new DuplicateStudentException("Student with ID " + student.getStudentId() + " already exists");
+        }
         
         if (repository.findById(student.getStudentId()) != null) {
             throw new DuplicateStudentException("Student with ID " + student.getStudentId() + " already exists");
@@ -38,8 +44,9 @@ public class StudentService {
         return repository.load();
     }
 
-    public Student findById(String id) {
-        return ((FileRepository)repository).findById(id);
+    public Optional<Student> findById(String id) {
+        //return ((FileRepository)repository).findById(id);
+        return repository.findById(id);
     }
 
     public void processEnrollments() {
@@ -53,5 +60,19 @@ public class StudentService {
 
     public void saveAll(List<Student> students) {
     repository.save(students);
+    }
+
+    public List<Student> searchByName(String name) {
+        String lowerCaseName = name.toLowerCase();
+
+        return repository.load().stream()
+            .filter(student -> student.getName().toLowerCase()
+            .contains(lowerCaseName)).collect(Collectors.toList());
+    }
+
+    public List<Student> sortStudentsByName() {
+        return repository.load().stream()
+            .sorted(java.util.Comparator.comparing(Student::getName))
+            .collect(Collectors.toList());
     }
 }

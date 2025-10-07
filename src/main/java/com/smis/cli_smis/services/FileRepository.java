@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class FileRepository implements DataRepository { 
@@ -42,7 +43,8 @@ public class FileRepository implements DataRepository {
         return students;
     }
 
-    public Student findById(String id) {
-        return studentMap.get(id);
+    @Override
+    public Optional<Student> findById(String id) {
+        return Optional.ofNullable(studentMap.get(id));
     }
 }
