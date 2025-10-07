@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
     
-    private final InMemoryRepository repository;
+    private final DataRepository repository;
 
     private final Queue<Student> enrollmementQueue = new LinkedList<>();
 
-    public StudentService(InMemoryRepository repository) {
+    public StudentService(DataRepository repository) {
         this.repository = repository;
         this.repository.load();
     }
@@ -39,7 +39,7 @@ public class StudentService {
     }
 
     public Student findById(String id) {
-        return repository.findById(id);
+        return ((FileRepository)repository).findById(id);
     }
 
     public void processEnrollments() {
@@ -49,5 +49,9 @@ public class StudentService {
             Student student = enrollmementQueue.poll();
             System.out.println("Enrolled student: " + student.getName());
         }
+    }
+
+    public void saveAll(List<Student> students) {
+    repository.save(students);
     }
 }
