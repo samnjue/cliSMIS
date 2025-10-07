@@ -2,7 +2,7 @@ package com.smis.cli_smis.services;
 
 import com.smis.cli_smis.entities.Student;
 import java.util.List;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -21,6 +21,7 @@ public class StudentService {
     }
 
     public void addStudent(Student student) throws DuplicateStudentException {
+        
         if (repository.findById(student.getStudentId()) != null) {
             throw new DuplicateStudentException("Student with ID " + student.getStudentId() + " already exists");
         }
