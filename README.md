@@ -7,7 +7,7 @@ The application allows users to perform CRUD (Create, Read, Update, Delete) oper
 
 ### Core Features & Demonstrated Concepts
 | Concept | Implementation Details|
-| :---: | :---: |
+| :---: | :--- |
 | Object-Oriented Programming (OOP) | Inheritance (`Student` extends `Person`), Abstraction (`Person` abstract class, `DataRepository` interface), and Encapsulation (private fields with getters/setters). |
 | Spring Boot / DI | Uses Spring Boot for application context management and Dependency Injection (DI) for managing `StudentService` and `FileRepository` components. |
 | Data Structures | Uses `HashMap` for fast, O(1) student ID lookups and duplicate checks, and `Queue` (`LinkedList`) to simulate an enrollment queue. |
